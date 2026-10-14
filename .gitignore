@@ -4,3 +4,4 @@ __pycache__/
 *.pyc
 fontbakery-report.html
 .DS_Store
+fontbakery.txt

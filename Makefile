@@ -3,6 +3,7 @@
 #   make test    – run FontBakery's Google Fonts profile
 #   make proof   – render a specimen image to documentation/specimen.png
 
+SHELL := /bin/bash
 SOURCES = sources/SutraMono-Light.ufo sources/SutraMono-Regular.ufo sources/SutraMono-Bold.ufo
 
 .PHONY: build sources test proof clean
@@ -24,8 +25,8 @@ build: sources
 	cd sources && PATH="$(CURDIR)/venv/bin:$$PATH" gftools builder config.yaml
 
 test: venv-qa/touchfile
-	venv-qa/bin/fontbakery check-googlefonts -l WARN --succinct \
-	  --html fontbakery-report.html fonts/ttf/*.ttf
+	set -o pipefail; venv-qa/bin/fontbakery check-googlefonts -l WARN --succinct \
+	  --html fontbakery-report.html fonts/ttf/*.ttf 2>&1 | tee fontbakery.txt
 
 proof: venv/touchfile
 	venv/bin/pip install -q pillow
