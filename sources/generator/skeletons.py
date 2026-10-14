@@ -115,10 +115,11 @@ def skeletons(S, e=0.92):
     G['p'] = [BOWL, [(L, d), (L, x)]]
     G['q'] = [BOWL, [(R, d), (R, x)]]
     # r: a rolled shoulder that finishes in a small downturned terminal, so it fills its cell
-    st = L + 40
-    G['r'] = [[(st, b), (st, x)],
-              sq(st + 165, x - 200, 165, 200 + OV, 180, 90, n=2.2) +
-              bez((st + 165, x + OV), (st + 235, x + OV), (R, x + OV - 12), (R + 12, x - 45), 16)[1:]]
+    # r: stem on the same line as n/m/p so the gap before it matches every other letter;
+    # the arm stops short of the right edge so the space after it evens out too
+    G['r'] = [[(L, b), (L, x)],
+              sq(L + 170, x - 200, 170, 200 + OV, 180, 90, n=2.2) +
+              bez((L + 170, x + OV), (L + 240, x + OV), (R - 32, x + OV - 12), (R - 20, x - 40), 16)[1:]]
     G['s'] = [s_shape(x, b, 158, 172, bias=10)]
     G['t'] = [[(C - 40, a - 40), (C - 40, b + 120)] + sq(C + 80, b + 120, 120, 120 + OV, 180, 270) + [(R, b - OV)],
               [(L, x), (R - 20, x)]]
@@ -410,4 +411,4 @@ def skeletons(S, e=0.92):
 
 
 # anchors: x position of the 'top' mark on each base (default: centre of the cell)
-TOP_X = {'r': C + 25, 'L': L + 60, 'f': C + 20, 'dotlessj': C + 60, 'k': L + 40, 't': C - 10, 'l': C}
+TOP_X = {'r': C - 5, 'L': L + 60, 'f': C + 20, 'dotlessj': C + 60, 'k': L + 40, 't': C - 10, 'l': C}

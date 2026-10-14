@@ -30,7 +30,7 @@ TOP_MARKS = {0x0300: 'gravecomb', 0x0301: 'acutecomb', 0x0302: 'uni0302', 0x0303
              0x0306: 'uni0306', 0x0307: 'uni0307', 0x0308: 'uni0308', 0x030A: 'uni030A', 0x030B: 'uni030B',
              0x030C: 'uni030C'}
 ASCENDER_BASES = set('bdhklt')
-BOTTOM_X = {'k': L + 40, 'r': L + 40, 'R': C - 30, 'L': C - 20, 'l': C}
+BOTTOM_X = {'k': L + 40, 'r': L + 10, 'R': C - 30, 'L': C - 20, 'l': C}
 
 
 def uv_of(name):
