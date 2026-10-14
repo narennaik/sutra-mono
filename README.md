@@ -11,6 +11,13 @@ corner, and weight is a single number.
   mathematical and functional-programming symbols: ∘ → ← ⇒ ⇐ ↦ λ ∀ ∃ ≡ ≠ ≅ ≤ ≥ ⊗ ⊕ × ∈ ⊥ ⊤ ∅ ¬
 - **Licence:** [SIL Open Font License 1.1](OFL.txt)
 
+## Design document
+
+[Sutra Mono: the design document (PDF)](documentation/design-doc/Sutra-Mono-Design-Document.pdf) tells
+the story of the font: the single-pen idea, the soft-square curve, the grid, the shared bowl, the
+composition set and the optical corrections in 1.100. It is generated from the font itself by
+[`make_doc.py`](documentation/design-doc/make_doc.py); run `make doc` to rebuild it.
+
 ## Install
 
 Download the `.ttf` files from [`fonts/ttf`](fonts/ttf) and install them, then set your editor's

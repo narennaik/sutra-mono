@@ -6,7 +6,7 @@
 SHELL := /bin/bash
 SOURCES = sources/SutraMono-Light.ufo sources/SutraMono-Regular.ufo sources/SutraMono-Bold.ufo
 
-.PHONY: build sources test proof clean
+.PHONY: build sources test proof doc clean
 
 venv/touchfile: requirements.txt
 	python3 -m venv venv
@@ -31,6 +31,10 @@ test: venv-qa/touchfile
 proof: venv/touchfile
 	venv/bin/pip install -q pillow
 	venv/bin/python sources/generator/specimen.py
+
+doc: venv/touchfile
+	venv/bin/pip install -q reportlab
+	venv/bin/python documentation/design-doc/make_doc.py
 
 clean:
 	rm -rf venv venv-qa fonts/ttf/*.ttf fontbakery-report.html
