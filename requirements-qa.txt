@@ -1,0 +1,2 @@
+# quality assurance (kept separate: fontbakery pins a different protobuf than gftools)
+fontbakery[googlefonts]==1.1.0

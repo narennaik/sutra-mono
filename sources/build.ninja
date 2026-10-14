@@ -1,0 +1,71 @@
+# buildTTF: Build a TTF from a source file
+rule buildTTF
+  command = /tmp/claude-0/vbuild/bin/python3 -m gftools.builder.jobrunner $
+      fontmake --output-path $out -o ttf $fontmake_type $in $args $stamp
+  description = buildTTF
+
+# autohint: Run gftools-autohint
+rule autohint
+  command = /tmp/claude-0/vbuild/bin/python3 -m gftools.builder.jobrunner $
+      gftools-autohint $args -o $out $in $stamp
+  description = autohint
+
+# fix: Run gftools-fix
+rule fix
+  command = /tmp/claude-0/vbuild/bin/python3 -m gftools.builder.jobrunner $
+      gftools-fix-font -o $out $args $in $stamp
+  description = fix
+
+# copy: Copy a file
+rule copy
+  command = /tmp/claude-0/vbuild/bin/python3 -m gftools.builder.jobrunner $
+      cp $in $out $stamp
+  description = copy
+
+# Generating /tmp/tmply72nlr5
+build /tmp/tmply72nlr5: buildTTF SutraMono-Light.ufo
+  operation = buildTTF
+  args = --filter ...  --filter FlattenComponentsFilter --filter $
+      DecomposeTransformedComponentsFilter
+  fontmake_type = -u
+  fontmake_args =  --verbose WARNING 
+# Generating /tmp/tmp34q_anaq
+build /tmp/tmp34q_anaq: buildTTF SutraMono-Regular.ufo
+  operation = buildTTF
+  args = --filter ...  --filter FlattenComponentsFilter --filter $
+      DecomposeTransformedComponentsFilter
+  fontmake_type = -u
+  fontmake_args =  --verbose WARNING 
+# Generating /tmp/tmpbh9ik0pf
+build /tmp/tmpbh9ik0pf: buildTTF SutraMono-Bold.ufo
+  operation = buildTTF
+  args = --filter ...  --filter FlattenComponentsFilter --filter $
+      DecomposeTransformedComponentsFilter
+  fontmake_type = -u
+  fontmake_args =  --verbose WARNING 
+# Generating /tmp/tmpdi2a66i1
+build /tmp/tmpdi2a66i1: autohint /tmp/tmply72nlr5
+  operation = autohint
+  args = --fail-ok 
+# Generating ../fonts/ttf/SutraMono-Light.ttf
+build ../fonts/ttf/SutraMono-Light.ttf: fix /tmp/tmpdi2a66i1
+  operation = fix
+  args = 
+# Generating /tmp/tmpg9xbhhfi
+build /tmp/tmpg9xbhhfi: autohint /tmp/tmp34q_anaq
+  operation = autohint
+  args = --fail-ok 
+# Generating ../fonts/ttf/SutraMono-Regular.ttf
+build ../fonts/ttf/SutraMono-Regular.ttf: fix /tmp/tmpg9xbhhfi
+  operation = fix
+  args = 
+# Generating /tmp/tmpts3mw6ih
+build /tmp/tmpts3mw6ih: autohint /tmp/tmpbh9ik0pf
+  operation = autohint
+  args = --fail-ok 
+# Generating ../fonts/ttf/SutraMono-Bold.ttf
+build ../fonts/ttf/SutraMono-Bold.ttf: fix /tmp/tmpts3mw6ih
+  operation = fix
+  args = 
+default ../fonts/ttf/SutraMono-Light.ttf ../fonts/ttf/SutraMono-Regular.ttf $
+    ../fonts/ttf/SutraMono-Bold.ttf

@@ -1,0 +1,11 @@
+sources:
+  - SutraMono-Light.ufo
+  - SutraMono-Regular.ufo
+  - SutraMono-Bold.ufo
+familyName: Sutra Mono
+buildVariable: false
+buildStatic: true
+buildOTF: false
+buildWebfont: false
+autohintTTF: true
+outputDir: ../fonts

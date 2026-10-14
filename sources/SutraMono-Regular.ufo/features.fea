@@ -1,0 +1,19 @@
+languagesystem DFLT dflt;
+languagesystem latn dflt;
+
+@TopMarks = [gravecomb acutecomb uni0302 tildecomb uni0304 uni0306 uni0307 uni0308 uni030A uni030B uni030C];
+@TopMarksCase = [gravecomb.case acutecomb.case uni0302.case tildecomb.case uni0304.case uni0306.case uni0307.case uni0308.case uni030A.case uni030B.case uni030C.case];
+@Upper = [A B C D E F G H I J K L M N O P Q R S T U V W X Y Z];
+
+@BottomMarks = [uni0326 uni0327 uni0328];
+
+feature ccmp {
+    lookup dotless {
+        sub [i j]' @TopMarks by [dotlessi dotlessj];
+        sub [i j]' @BottomMarks @TopMarks by [dotlessi dotlessj];
+        sub iogonek' @TopMarks by iogonek.dotless;
+    } dotless;
+    lookup casemarks {
+        sub @Upper @TopMarks' by @TopMarksCase;
+    } casemarks;
+} ccmp;

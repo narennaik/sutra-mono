@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="hungarumlaut" format="2">
+  <advance width="600"/>
+  <unicode hex="02DD"/>
+  <outline>
+    <contour>
+      <point x="237" y="760" type="curve" smooth="yes"/>
+      <point x="157" y="625" type="line"/>
+      <point x="154" y="621"/>
+      <point x="153" y="616"/>
+      <point x="153" y="612" type="curve" smooth="yes"/>
+      <point x="153" y="596"/>
+      <point x="168" y="585"/>
+      <point x="182" y="585" type="curve" smooth="yes"/>
+      <point x="192" y="585"/>
+      <point x="202" y="591"/>
+      <point x="207" y="599" type="curve" smooth="yes"/>
+      <point x="287" y="734" type="line"/>
+      <point x="290" y="738"/>
+      <point x="291" y="743"/>
+      <point x="291" y="747" type="curve" smooth="yes"/>
+      <point x="291" y="763"/>
+      <point x="276" y="774"/>
+      <point x="262" y="774" type="curve" smooth="yes"/>
+      <point x="252" y="774"/>
+      <point x="242" y="768"/>
+    </contour>
+    <contour>
+      <point x="389" y="760" type="curve" smooth="yes"/>
+      <point x="309" y="625" type="line"/>
+      <point x="306" y="621"/>
+      <point x="305" y="616"/>
+      <point x="305" y="612" type="curve" smooth="yes"/>
+      <point x="305" y="596"/>
+      <point x="320" y="585"/>
+      <point x="334" y="585" type="curve" smooth="yes"/>
+      <point x="344" y="585"/>
+      <point x="354" y="591"/>
+      <point x="359" y="599" type="curve" smooth="yes"/>
+      <point x="439" y="734" type="line"/>
+      <point x="442" y="738"/>
+      <point x="443" y="743"/>
+      <point x="443" y="747" type="curve" smooth="yes"/>
+      <point x="443" y="763"/>
+      <point x="428" y="774"/>
+      <point x="414" y="774" type="curve" smooth="yes"/>
+      <point x="404" y="774"/>
+      <point x="394" y="768"/>
+    </contour>
+  </outline>
+</glyph>

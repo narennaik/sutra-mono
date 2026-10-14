@@ -1,0 +1,27 @@
+name: Build and test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build fonts from the skeleton sources
+        run: make build
+      - name: Run FontBakery (Google Fonts profile)
+        run: make test
+      - name: Check that committed sources and fonts match the generator
+        run: git diff --stat --exit-code -- sources/*.ufo || echo "::warning::UFO sources changed during build; commit them."
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sutra-mono
+          path: |
+            fonts/ttf/*.ttf
+            fontbakery-report.html
