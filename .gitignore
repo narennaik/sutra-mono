@@ -5,3 +5,6 @@ __pycache__/
 fontbakery-report.html
 .DS_Store
 fontbakery.txt
+sources/build.ninja
+sources/.ninja_log
+sources/instance_ufo/
