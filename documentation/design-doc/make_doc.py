@@ -441,7 +441,7 @@ code = [
     ('f', '  s.on[e.kind]?.(e) ?? s;   ', 'c', '// total, never throws'),
     ('', ''),
     ('k', 'if ', 'f', '(bid >= floor && fill != 0) {'),
-    ('f', '  render(', 's', '"LAGOM_BANNER"', 'f', ');'),
+    ('f', '  render(', 's', '"banner"', 'f', ');'),
     ('f', '}'),
     ('', ''),
     ('c', '// 0O o Il1| {}[]() #$%&@ → ← ↦ ⊗ ⊕ ⊥ ⊤ ∈ ≅ ¬'),
@@ -450,7 +450,7 @@ colors = {'c': NIGHT_MUTED, 'k': NIGHT_BLUE, 'o': NIGHT_MUTED, 'f': NIGHT_FG, 't
 panel_top = y - 26; lh = 21.5; fs = 12.6
 c.setFillColor(HexColor('#0B1115')); c.setStrokeColor(HexColor('#22313A'))
 c.roundRect(M, panel_top - 34 - lh * len(code), COL, 34 + lh * len(code) + 14, 10, fill=1, stroke=1)
-c.setFont('Sutra', 7.6); c.setFillColor(NIGHT_MUTED); c.drawString(M + 18, panel_top - 14, 'naruto/v7/compile.ts')
+c.setFont('Sutra', 7.6); c.setFillColor(NIGHT_MUTED); c.drawString(M + 18, panel_top - 14, 'pipeline/compile.ts')
 for i, row in enumerate(code):
     ly = panel_top - 40 - i * lh
     c.setFont('Sutra', 7.4); c.setFillColor(HexColor('#3A4B54')); c.drawRightString(M + 34, ly, str(i + 1))

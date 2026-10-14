@@ -6,7 +6,7 @@
 SHELL := /bin/bash
 SOURCES = sources/SutraMono-Light.ufo sources/SutraMono-Regular.ufo sources/SutraMono-Bold.ufo
 
-.PHONY: build sources test proof doc clean
+.PHONY: build sources test proof doc site clean
 
 venv/touchfile: requirements.txt
 	python3 -m venv venv
@@ -35,6 +35,12 @@ proof: venv/touchfile
 doc: venv/touchfile
 	venv/bin/pip install -q reportlab
 	venv/bin/python documentation/design-doc/make_doc.py
+
+site: doc proof
+	pdftoppm -r 110 -jpeg -jpegopt quality=86 documentation/design-doc/Sutra-Mono-Design-Document.pdf docs/pages/page
+	cp documentation/design-doc/Sutra-Mono-Design-Document.pdf docs/
+	venv/bin/python -c "from fontTools.ttLib import TTFont; [ (lambda f: (setattr(f,'flavor','woff2'), f.save(f'docs/fonts/SutraMono-{w}.woff2')))(TTFont(f'fonts/ttf/SutraMono-{w}.ttf')) for w in ('Light','Regular','Bold') ]"
+	rm -f docs/SutraMono-*.zip && cd fonts/ttf && zip -q ../../docs/SutraMono-1.100.zip SutraMono-*.ttf && cd ../.. && zip -qj docs/SutraMono-1.100.zip OFL.txt
 
 clean:
 	rm -rf venv venv-qa fonts/ttf/*.ttf fontbakery-report.html
