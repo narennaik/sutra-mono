@@ -39,6 +39,7 @@ doc: venv/touchfile
 site: venv/touchfile
 	venv/bin/pip install -q pillow reportlab
 	venv/bin/python tools/refresh_assets.py
+	venv/bin/python tools/site_data.py
 
 clean:
 	rm -rf venv venv-qa fonts/ttf/*.ttf fontbakery-report.html

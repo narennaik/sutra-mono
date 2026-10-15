@@ -4,182 +4,324 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Sutra Mono</title>
-<meta name="description" content="Sutra Mono is a monospaced typeface for code, drawn as a single thread: one centre-line, one pen, nothing that is there for show.">
+<meta name="description" content="Sutra Mono is a typeface for code, drawn as a single thread: one centre-line per letter, one pen to trace it. Free and open source.">
 <meta property="og:title" content="Sutra Mono">
-<meta property="og:description" content="A monospaced typeface for code, drawn as a single thread.">
+<meta property="og:description" content="A typeface for code, drawn as a single thread.">
 <meta property="og:image" content="https://narennaik.github.io/sutra-mono/og.png">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0F1B23">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preload" href="fonts/SutraMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/glyphs.json" as="fetch" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..400&display=swap">
 <style>
 @font-face{font-family:"Sutra Mono";font-weight:300;font-display:swap;src:url(fonts/SutraMono-Light.woff2) format("woff2")}
 @font-face{font-family:"Sutra Mono";font-weight:400;font-display:swap;src:url(fonts/SutraMono-Regular.woff2) format("woff2")}
 @font-face{font-family:"Sutra Mono";font-weight:700;font-display:swap;src:url(fonts/SutraMono-Bold.woff2) format("woff2")}
 
-/* layout: one calm column of writing; the type itself breaks out wide. paper, ink, one bottle of blue */
+/* Ink and paper. The page is written in fountain-pen ink (a deep tsuki-yo blue, not black) on
+   night, and turns to paper for the design document. One brighter ink is the only accent. */
 :root{
-  --paper:#F1F3F2; --sheet:#FAFBFA; --ink:#16212A; --muted:#5E6B72; --rule:#D6DCDD; --blue:#1E5C73; --blue-soft:#D7E6EB;
-  --night:#121B21; --night-fg:#DCE4E7; --night-muted:#7D8E96; --night-blue:#74B6CB; --night-warm:#D9B98C;
+  --gut:8rem; --gap:clamp(28px,4vw,56px);
+  --ink:#0F1B23;        /* night: the bottle of ink */
+  --ink-2:#132430;      /* raised surfaces on ink */
+  --hair:#22394A;       /* hairlines on ink */
+  --ivory:#ECE6DA;      /* paper, and type on ink */
+  --mist:#93A6AF;       /* secondary type on ink */
+  --tsuki:#76BBD0;      /* wet ink: the one accent */
+  --paper:#ECE6DA;      /* paper section ground */
+  --paper-ink:#18252E;  /* type on paper */
+  --paper-mist:#5D6B71; /* secondary type on paper */
+  --paper-hair:#CFC7B8;
+  --paper-accent:#1E5C73;
+  --serif:"Newsreader", "Iowan Old Style", Georgia, serif;
   --mono:"Sutra Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  --sans:"Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  color-scheme:light;
+  --ease:cubic-bezier(.22,.7,.18,1);
+  color-scheme:dark;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --paper:#0F161B; --sheet:#151E24; --ink:#E2E8EA; --muted:#8C9AA1; --rule:#26333B; --blue:#74B6CB; --blue-soft:#1B2C34; color-scheme:dark}}
-:root[data-theme="dark"]{--paper:#0F161B; --sheet:#151E24; --ink:#E2E8EA; --muted:#8C9AA1; --rule:#26333B; --blue:#74B6CB; --blue-soft:#1B2C34; color-scheme:dark}
-
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
-a{color:inherit}
-.wrap{max-width:1120px;margin-inline:auto;padding-inline:clamp(16px,5vw,56px)}
-section{padding-block:clamp(56px,9vw,112px);border-top:1px solid var(--rule)}
-.label{font-family:var(--mono);font-size:13px;color:var(--blue);letter-spacing:.02em;margin:0 0 18px}
-h2{font-family:var(--sans);font-weight:500;font-size:clamp(28px,4vw,40px);line-height:1.15;letter-spacing:-.01em;margin:0 0 18px;text-wrap:balance}
-p{margin:0;max-width:62ch}
-.muted{color:var(--muted)}
-:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--ink);color:var(--ivory);font-family:var(--serif);font-size:clamp(17px,1.05vw + 12px,20px);line-height:1.6;font-variation-settings:"opsz" 14;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+/* a whisper of paper grain over the ink */
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.06;mix-blend-mode:soft-light;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+a{color:inherit;text-decoration-thickness:1px;text-underline-offset:.2em}
+a:hover{color:var(--tsuki)}
+:focus-visible{outline:2px solid var(--tsuki);outline-offset:4px;border-radius:2px}
+::selection{background:var(--tsuki);color:var(--ink)}
+.wrap{width:min(1180px,100%);margin-inline:auto;padding-inline:clamp(18px,5vw,64px)}
+.measure{max-width:33em}
+p{margin:0 0 1em}
+h1,h2,h3{font-weight:400;margin:0}
+.mono{font-family:var(--mono)}
 
 /* nav */
-nav{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
-nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:56px}
-nav .brand{font-family:var(--mono);font-size:15px;text-decoration:none}
-nav .brand b{font-weight:400;color:var(--blue)}
-nav ul{display:flex;gap:clamp(12px,2.5vw,28px);list-style:none;margin:0;padding:0;font-size:14px}
-nav ul a{text-decoration:none;color:var(--muted)}
-nav ul a:hover{color:var(--ink)}
-@media (max-width:640px){nav ul li.opt{display:none}}
+.nav{position:fixed;inset:0 0 auto 0;z-index:40;padding-top:env(safe-area-inset-top,0px);transition:background .5s var(--ease),border-color .5s var(--ease);border-bottom:1px solid transparent}
+.nav.solid{background:color-mix(in srgb,var(--ink) 82%,transparent);backdrop-filter:blur(14px) saturate(1.2);border-bottom-color:var(--hair)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;height:68px}
+.mark{font-family:var(--mono);font-size:17px;text-decoration:none;letter-spacing:.01em}
+.mark span{color:var(--tsuki)}
+.nav ul{display:flex;align-items:center;gap:clamp(14px,2.6vw,34px);list-style:none;margin:0;padding:0;font-size:16px}
+.nav ul a{text-decoration:none;color:var(--mist)}
+.nav ul a:hover{color:var(--ivory)}
+.pill{display:inline-flex;align-items:center;gap:.5em;padding:.62em 1.15em;border-radius:999px;border:1px solid var(--hair);text-decoration:none;font-size:16px;line-height:1;transition:border-color .3s,background .3s,color .3s}
+.pill:hover{border-color:var(--ivory);color:var(--ivory)}
+.pill.solid{background:var(--ivory);color:var(--ink);border-color:var(--ivory)}
+.pill.solid:hover{background:#fff;color:var(--ink)}
+@media (max-width:720px){.nav ul li.hide-s{display:none}}
 
-/* hero */
-.hero{padding-block:clamp(56px,10vw,128px) clamp(40px,6vw,72px);border-top:0}
-.eyebrow{font-family:var(--mono);font-size:13px;color:var(--muted)}
-.hero h1{font-family:var(--mono);font-weight:400;font-size:clamp(44px,14vw,184px);line-height:.92;letter-spacing:-.025em;margin:18px 0 0}
-.hero h1 .ring{color:var(--blue)}
-.hero .lede{font-size:clamp(19px,2.4vw,23px);line-height:1.5;max-width:40ch;margin-top:28px}
-.ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
-.btn{display:inline-flex;align-items:center;gap:10px;font-size:15px;font-weight:500;text-decoration:none;padding:12px 18px;border-radius:999px;border:1px solid var(--rule);background:var(--sheet)}
-.btn.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-.btn:hover{border-color:var(--ink)}
-.status{display:inline-flex;align-items:center;gap:8px;margin-top:28px;font-family:var(--mono);font-size:13px;color:var(--muted)}
-.status i{width:8px;height:8px;border-radius:50%;background:var(--blue);display:inline-block}
-@media (prefers-reduced-motion:no-preference){
-  .hero h1{animation:settle 1.1s cubic-bezier(.2,.7,.2,1) both}
-  @keyframes settle{from{letter-spacing:.05em;opacity:.3}to{letter-spacing:-.025em;opacity:1}}
-}
+/* hero: the pen draws the name */
+.hero{min-height:min(100svh,980px);display:grid;align-content:center;padding-block:120px 72px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;left:50%;top:44%;width:min(900px,120vw);aspect-ratio:1;translate:-50% -50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(118,187,208,.10),transparent 70%)}
+.stage{position:relative;z-index:1}
+#heroSvg{display:block;width:min(100%,1060px);height:auto;margin-inline:auto;overflow:visible}
+.lede{font-style:italic;font-weight:300;font-size:clamp(22px,2.4vw,34px);line-height:1.35;text-align:center;margin:clamp(18px,3vw,36px) auto 0;max-width:22em;font-variation-settings:"opsz" 48}
+.hero-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:38px}
+.fine{font-size:15px;color:var(--mist);text-align:center;margin-top:22px}
+.replay{position:absolute;right:clamp(18px,5vw,64px);bottom:28px;z-index:2;background:none;border:0;color:var(--mist);font:inherit;font-size:15px;cursor:pointer;display:inline-flex;gap:.5em;align-items:center}
+.replay:hover{color:var(--ivory)}
+.reveal-late{transition:opacity 1.1s var(--ease) .1s, translate 1.1s var(--ease) .1s}
+html.js .hero:not(.done) .reveal-late{opacity:0;translate:0 10px}
 
-/* tester */
-.sheet{background:var(--sheet);border:1px solid var(--rule);border-radius:14px;overflow:hidden}
-.bar{display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid var(--rule);font-family:var(--mono);font-size:13px;color:var(--muted)}
+/* chapters */
+.chapter{padding-block:clamp(96px,14vw,184px);border-top:1px solid var(--hair);position:relative}
+.ch-head{display:grid;grid-template-columns:minmax(0,1fr);gap:14px var(--gap);margin-bottom:clamp(36px,5vw,64px)}
+@media (min-width:900px){.ch-head{grid-template-columns:var(--gut) minmax(0,1fr)}}
+.ch-num{font-family:var(--mono);font-size:15px;color:var(--tsuki);padding-top:.9em}
+h2{font-size:clamp(34px,4.6vw,64px);line-height:1.05;letter-spacing:-.012em;font-variation-settings:"opsz" 72;text-wrap:balance;max-width:16em}
+.ch-body{display:grid;gap:var(--gap);grid-template-columns:minmax(0,1fr)}
+@media (min-width:900px){.ch-body{grid-template-columns:var(--gut) minmax(0,1fr)}.ch-body>.col{grid-column:2}}
+.col p{color:color-mix(in srgb,var(--ivory) 86%,var(--mist))}
+
+/* the brief */
+blockquote.brief{margin:0;font-style:italic;font-weight:300;font-size:clamp(28px,3.8vw,54px);line-height:1.2;letter-spacing:-.01em;font-variation-settings:"opsz" 72;max-width:18em;text-wrap:balance}
+blockquote.brief::before{content:"\201C";color:var(--tsuki);padding-right:.05em}
+@media (min-width:900px){blockquote.brief::before{margin-left:-.45em}}
+blockquote.brief::after{content:"\201D";color:var(--tsuki)}
+
+/* instruments: interactive figures */
+.instrument{background:var(--ink-2);border:1px solid var(--hair);border-radius:22px;padding:clamp(18px,3vw,40px);position:relative;overflow:hidden}
+.instrument svg{display:block;width:100%;height:auto;overflow:visible}
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:14px 28px;margin-top:clamp(18px,2.5vw,30px);padding-top:clamp(16px,2vw,22px);border-top:1px solid var(--hair);font-size:16px;color:var(--mist)}
+.controls label{display:flex;align-items:center;gap:14px;white-space:nowrap}
+.controls output{font-family:var(--mono);color:var(--ivory);min-width:3.5ch;font-size:15px}
+input[type=range]{-webkit-appearance:none;appearance:none;width:min(260px,52vw);height:28px;background:transparent;cursor:pointer}
+input[type=range]::-webkit-slider-runnable-track{height:2px;background:linear-gradient(90deg,var(--tsuki) var(--p,50%),var(--hair) var(--p,50%));border-radius:2px}
+input[type=range]::-moz-range-track{height:2px;background:var(--hair)}
+input[type=range]::-moz-range-progress{height:2px;background:var(--tsuki)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;margin-top:-8px;border-radius:50%;background:var(--ivory);border:0;box-shadow:0 0 0 6px rgba(118,187,208,.14)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--ivory);border:0}
+.toggle{display:inline-flex;align-items:center;gap:.6em;background:none;border:1px solid var(--hair);color:var(--mist);border-radius:999px;padding:.45em 1em;font:inherit;font-size:15px;cursor:pointer;transition:border-color .3s,color .3s}
+.toggle[aria-pressed="true"]{color:var(--ivory);border-color:var(--tsuki)}
+.toggle:hover{color:var(--ivory)}
+.note{font-size:15px;color:var(--mist);margin-top:14px}
+
+/* seven letters */
+.seven svg .bowl{stroke:var(--tsuki)}
+.seven svg .stem{stroke:var(--ivory)}
+
+/* told apart */
+.pairs{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(28px,4vw,56px) clamp(28px,4vw,48px)}
+@media (min-width:640px){.pairs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.pair b{white-space:nowrap;display:block;font-family:var(--mono);font-weight:400;font-size:clamp(64px,7vw,96px);line-height:1;letter-spacing:.04em;margin-bottom:22px}
+.pair p{font-size:17px;color:var(--mist);margin:0;max-width:17em}
+
+/* symbols */
+.symbols{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(24px,4vw,48px);align-items:start}
+@media (min-width:900px){.symbols{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)}}
+.sym-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--hair);border:1px solid var(--hair);border-radius:18px;overflow:hidden}
+.sym-grid button{all:unset;cursor:pointer;background:var(--ink);aspect-ratio:1;display:grid;place-items:center;font-family:var(--mono);font-size:clamp(24px,3vw,36px);transition:background .35s var(--ease),color .35s}
+.sym-grid button:hover,.sym-grid button:focus-visible,.sym-grid button[aria-pressed="true"]{background:var(--ink-2);color:var(--tsuki)}
+.sym-grid button:focus-visible{outline:2px solid var(--tsuki);outline-offset:-2px}
+.sym-detail{position:sticky;top:110px;padding:clamp(8px,1vw,12px) 0}
+.sym-detail .big{font-family:var(--mono);font-size:clamp(120px,15vw,200px);line-height:1;color:var(--ivory);display:block;min-height:1.05em}
+.sym-detail .name{font-size:clamp(24px,2.4vw,32px);font-variation-settings:"opsz" 36;margin-top:18px}
+.sym-detail .code{font-family:var(--mono);font-size:15px;color:var(--mist);margin-top:6px}
+.sym-detail .use{font-family:var(--mono);font-size:clamp(16px,1.5vw,20px);line-height:1.5;color:var(--tsuki);margin-top:26px;padding-top:20px;border-top:1px solid var(--hair);overflow-wrap:anywhere}
+
+/* editor */
+.editor{background:#0A141A;border:1px solid var(--hair);border-radius:22px;overflow:hidden;box-shadow:0 40px 120px -40px rgba(0,0,0,.7)}
+.ed-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;padding:14px 20px;border-bottom:1px solid var(--hair);font-size:15px;color:var(--mist)}
+.dots{display:flex;gap:8px}.dots i{width:11px;height:11px;border-radius:50%;background:var(--hair)}
 .seg{display:flex;gap:4px}
-.seg button{font:inherit;color:var(--muted);background:none;border:1px solid transparent;border-radius:999px;padding:4px 12px;cursor:pointer}
-.seg button[aria-pressed="true"]{color:var(--ink);border-color:var(--rule);background:var(--paper)}
-.ctl{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-input[type=range]{accent-color:var(--blue);width:120px}
-.code{overflow-x:auto}
-textarea{display:block;width:100%;min-height:440px;resize:vertical;border:0;background:transparent;color:var(--ink);font-family:var(--mono);font-size:var(--fs,18px);font-weight:var(--fw,400);line-height:1.65;padding:22px 22px 28px;tab-size:2;white-space:pre}
+.seg button{font:inherit;font-size:15px;color:var(--mist);background:none;border:1px solid transparent;border-radius:999px;padding:.3em .9em;cursor:pointer}
+.seg button[aria-pressed="true"]{color:var(--ivory);border-color:var(--hair);background:var(--ink-2)}
+.ed-scroll{overflow-x:auto}
+textarea{display:block;width:100%;min-height:470px;resize:vertical;border:0;background:transparent;color:var(--ivory);font-family:var(--mono);font-size:var(--fs,18px);font-weight:var(--fw,400);line-height:1.7;padding:26px 28px 34px;tab-size:2;white-space:pre;caret-color:var(--tsuki)}
 textarea:focus-visible{outline:none}
 
-/* design doc gallery */
-.doc-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:20px 40px;margin-bottom:34px}
-.doc-head p{max-width:52ch}
-.strip{display:grid;grid-auto-flow:column;grid-auto-columns:clamp(220px,28vw,340px);gap:22px;overflow-x:auto;padding:8px 2px 26px;scroll-snap-type:x mandatory;scrollbar-width:thin}
-.strip button{all:unset;cursor:zoom-in;scroll-snap-align:start;display:flex;flex-direction:column;gap:10px}
-.strip img{width:100%;height:auto;display:block;border-radius:4px;box-shadow:0 1px 2px rgba(20,30,36,.08),0 10px 28px rgba(20,30,36,.14);transition:transform .25s ease}
-.strip button:hover img,.strip button:focus-visible img{transform:translateY(-4px)}
-.strip span{font-family:var(--mono);font-size:12px;color:var(--muted)}
-.strip-hint{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:4px}
-dialog{border:0;padding:0;background:transparent;max-width:min(92vw,820px);max-height:94vh}
-dialog::backdrop{background:rgba(10,15,18,.82)}
-dialog img{display:block;max-width:100%;max-height:88vh;height:auto;border-radius:4px}
-.dlg-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 2px 0;font-family:var(--mono);font-size:13px;color:#cfd8dc}
-.dlg-bar button{font:inherit;color:#e6eef1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:6px 14px;cursor:pointer}
+/* paper: the design document */
+.paper{background:var(--paper);color:var(--paper-ink);border-top:0}
+.paper .ch-num{color:var(--paper-accent)}
+.paper .col p{color:var(--paper-mist)}
+.paper a:hover{color:var(--paper-accent)}
+.paper :focus-visible{outline-color:var(--paper-accent)}
+.strip{display:grid;grid-auto-flow:column;grid-auto-columns:clamp(220px,25vw,320px);gap:26px;overflow-x:auto;padding:14px 4px 36px;margin-right:calc(-1 * clamp(18px,5vw,64px));padding-right:clamp(18px,5vw,64px);padding-left:4px;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:var(--paper-hair) transparent}
+.strip button{all:unset;cursor:zoom-in;scroll-snap-align:start;display:flex;flex-direction:column;gap:12px}
+.strip img{width:100%;height:auto;display:block;border-radius:3px;box-shadow:0 1px 1px rgba(24,37,46,.06),0 18px 40px -12px rgba(24,37,46,.28);transition:translate .5s var(--ease),box-shadow .5s var(--ease)}
+.strip button:hover img,.strip button:focus-visible img{translate:0 -6px;box-shadow:0 1px 1px rgba(24,37,46,.06),0 28px 54px -14px rgba(24,37,46,.34)}
+.strip span{font-size:15px;color:var(--paper-mist)}
+.paper-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+.paper .pill{border-color:var(--paper-hair);color:var(--paper-ink)}
+.paper .pill:hover{border-color:var(--paper-ink)}
+.paper .pill.solid{background:var(--paper-ink);color:var(--paper);border-color:var(--paper-ink)}
+dialog{border:0;padding:0;background:transparent;max-width:min(92vw,860px);max-height:94vh;color:var(--ivory)}
+dialog::backdrop{background:rgba(8,14,18,.86);backdrop-filter:blur(6px)}
+dialog img{display:block;max-width:100%;max-height:86vh;height:auto;border-radius:3px;margin-inline:auto}
+.dlg-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 2px 0;font-size:15px;color:var(--mist)}
+.dlg-bar button{font:inherit;font-size:15px;color:var(--ivory);background:rgba(255,255,255,.06);border:1px solid var(--hair);border-radius:999px;padding:.35em 1em;cursor:pointer}
 
-/* alphabet, composition, pairs */
-.alpha{font-family:var(--mono);font-size:clamp(30px,6.2vw,70px);line-height:1.2;word-break:break-all;margin:0}
-.alpha .soft{color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:14px;overflow:hidden;margin-top:30px}
-@media (min-width:600px){.grid{grid-template-columns:repeat(8,1fr)}}
-@media (min-width:960px){.grid{grid-template-columns:repeat(12,1fr)}}
-.cell{background:var(--sheet);display:flex;flex-direction:column;align-items:center;gap:6px;padding:18px 6px 12px}
-.cell b{font-family:var(--mono);font-weight:400;font-size:42px;line-height:1}
-.cell i{font-style:normal;font-size:12px;color:var(--muted);text-align:center;line-height:1.25}
-.cell small{font-family:var(--mono);font-size:10.5px;color:var(--muted)}
-.formula{font-family:var(--mono);font-size:clamp(18px,2.6vw,26px);margin-top:28px;color:var(--blue);overflow-x:auto;white-space:nowrap}
-.pairs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:30px;margin-top:30px}
-.pair{display:flex;flex-direction:column;gap:8px;min-width:0}
-.pair b{font-family:var(--mono);font-weight:400;font-size:52px;letter-spacing:.06em;line-height:1.1}
-.pair span{font-size:15px;color:var(--muted)}
-.weights{display:flex;flex-direction:column;margin-top:24px}
-.weights div{display:flex;align-items:baseline;gap:24px;border-top:1px solid var(--rule);padding-block:14px;min-width:0}
-.weights b{font-family:var(--mono);font-size:clamp(28px,5.4vw,60px);white-space:nowrap;overflow-x:auto;line-height:1.15}
-.weights small{font-family:var(--mono);font-size:12px;color:var(--muted);min-width:96px}
-
-/* night code panel */
-.night{background:var(--night);color:var(--night-fg);border-top:0}
-.night .label{color:var(--night-blue)}
-.night p{color:var(--night-muted)}
-.night h2{color:var(--night-fg)}
-pre.code-night{font-family:var(--mono);font-size:clamp(13px,1.7vw,17px);line-height:1.75;background:#0B1115;border:1px solid #22313A;border-radius:12px;padding:24px 26px;overflow-x:auto;margin:30px 0 0;color:var(--night-fg)}
-.c{color:var(--night-muted)}.k{color:var(--night-blue)}.s{color:var(--night-warm)}
-
-/* notes */
-.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px 44px;margin-top:30px}
-.notes div{display:flex;flex-direction:column;gap:6px;min-width:0}
-.notes dt{font-family:var(--mono);font-size:14px;color:var(--blue)}
-.notes dd{margin:0;font-size:16px}
-.notes dd span{color:var(--muted)}
-.install{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px;margin-top:30px}
-.install .sheet{padding:20px 22px}
-.install code{font-family:var(--mono);font-size:14px;display:block;margin-top:8px;overflow-x:auto;white-space:nowrap}
-footer{border-top:1px solid var(--rule);padding-block:36px 48px;font-size:14px;color:var(--muted)}
-footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 28px}
+/* get it */
+.get{display:grid;grid-template-columns:minmax(0,1fr);gap:1px;background:var(--hair);border:1px solid var(--hair);border-radius:22px;overflow:hidden;margin-top:clamp(36px,5vw,56px)}
+@media (min-width:900px){.get{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.get>div{background:var(--ink);padding:clamp(22px,3vw,36px)}
+.get h3{font-size:24px;font-variation-settings:"opsz" 36;margin-bottom:10px}
+.get p{font-size:16px;color:var(--mist);margin:0 0 14px}
+.get code{white-space:pre-line;display:block;font-family:var(--mono);font-size:15px;line-height:1.5;color:var(--tsuki);overflow-wrap:anywhere}
+footer{border-top:1px solid var(--hair);padding-block:44px 64px;color:var(--mist);font-size:15px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 32px}
 </style>
 </head>
 <body>
-<nav aria-label="Primary">
+<header class="nav" id="nav">
   <div class="wrap">
-    <a class="brand" href="#top">sutra<b>∘</b>mono</a>
+    <a class="mark" href="#top" aria-label="Sutra Mono, back to top">sutra<span>∘</span>mono</a>
     <ul>
-      <li><a href="#try">Try it</a></li>
-      <li><a href="#story">Design doc</a></li>
-      <li class="opt"><a href="#glyphs">Glyphs</a></li>
-      <li><a href="https://github.com/narennaik/sutra-mono">GitHub</a></li>
+      <li class="hide-s"><a href="#story">The story</a></li>
+      <li class="hide-s"><a href="#try">Try it</a></li>
+      <li class="hide-s"><a href="#document">Design document</a></li>
+      <li><a class="pill solid" href="#get">Download</a></li>
     </ul>
   </div>
-</nav>
+</header>
 
 <main id="top">
-  <header class="hero wrap">
-    <div class="eyebrow">monospace · light, regular, bold · 358 glyphs · v1.100</div>
-    <h1>Sutra<span class="ring">∘</span>Mono</h1>
-    <p class="lede">A typeface for code, drawn as a single thread. One centre-line per letter, one pen to trace it, nothing that is there for show.</p>
-    <div class="ctas">
-      <a class="btn primary" href="SutraMono-1.100.zip" download>Download the fonts</a>
-      <a class="btn" href="Sutra-Mono-Design-Document.pdf">Read the design document</a>
-      <a class="btn" href="https://github.com/narennaik/sutra-mono">Source on GitHub</a>
+  <section class="hero" id="hero" aria-label="Sutra Mono">
+    <div class="stage wrap">
+      <svg id="heroSvg" viewBox="-60 120 3120 940" role="img" aria-label="The word Sutra, drawn by a pen as a single line and thickened into Sutra Mono"></svg>
+      <h1 class="lede reveal-late">A typeface for code, drawn as a single thread.</h1>
+      <div class="hero-actions reveal-late">
+        <a class="pill solid" href="#get">Download Sutra Mono</a>
+        <a class="pill" href="#try">Try it in your browser</a>
+      </div>
+      <p class="fine reveal-late">Free and open source. Three weights, 358 characters, submitted to Google Fonts.</p>
     </div>
-    <div class="status"><i aria-hidden="true"></i>Free under the SIL Open Font License · submitted to Google Fonts</div>
-  </header>
+    <button class="replay reveal-late" id="replay" type="button" aria-label="Draw the word again">↻ Draw it again</button>
+  </section>
 
-  <section id="try">
+  <section class="chapter" id="story" aria-labelledby="t1">
     <div class="wrap">
-      <p class="label">## try it</p>
-      <div class="sheet">
-        <div class="bar">
-          <span>pipeline/compile.ts</span>
-          <div class="ctl">
-            <div class="seg" role="group" aria-label="Weight">
-              <button id="w300" data-w="300" aria-pressed="false">Light</button>
-              <button id="w400" data-w="400" aria-pressed="true">Regular</button>
-              <button id="w700" data-w="700" aria-pressed="false">Bold</button>
-            </div>
-            <label for="fs">size</label><input id="fs" type="range" min="12" max="40" value="18"><span id="fsv">18px</span>
+      <div class="ch-head"><div class="ch-num">Chapter 1</div><h2 id="t1">It began as a gift, and one sentence.</h2></div>
+      <div class="ch-body"><div class="col">
+        <blockquote class="brief">Smooth, with a flow between the characters. Nothing unessential. Rounded, and feeling complete.</blockquote>
+        <p class="measure" style="margin-top:2.2em">That was the whole brief for a coding font made for a friend. Most coding fonts start from a sans-serif and squeeze it into a fixed grid. Sutra started from a different question: what is the least you could draw and still have every letter read?</p>
+        <p class="measure">The answer was a single line per letter, the path a pen would take if it never lifted. The name comes from Sanskrit: a <em>sūtra</em> is a thread, and also a short rule that holds a whole idea in a line. Code is that kind of writing.</p>
+      </div></div>
+    </div>
+  </section>
+
+  <section class="chapter" aria-labelledby="t2">
+    <div class="wrap">
+      <div class="ch-head"><div class="ch-num">Chapter 2</div><h2 id="t2">One line, one pen. Weight is just the width of the nib.</h2></div>
+      <div class="ch-body"><div class="col">
+        <p class="measure">Every letter is stored as its centre-line. The outline you read is what a single round-tipped pen leaves behind as it travels that line, so every end is the same soft curve and nothing is ever sharp. Drag the pen below: this is the font's real construction, running live.</p>
+        <figure class="instrument" style="margin:0">
+          <svg id="penSvg" viewBox="-40 150 6080 1100" role="img" aria-label="The phrase fold ∘ map drawn with an adjustable pen"></svg>
+          <div class="controls">
+            <label for="pen">Pen width <input id="pen" type="range" min="24" max="130" value="82"><output id="penOut" for="pen">82</output></label>
+            <button class="toggle" id="thread" type="button" aria-pressed="false">Show the thread</button>
+            <span>Light is 58, Regular 82, Bold 114.</span>
+          </div>
+        </figure>
+      </div></div>
+    </div>
+  </section>
+
+  <section class="chapter" aria-labelledby="t3">
+    <div class="wrap">
+      <div class="ch-head"><div class="ch-num">Chapter 3</div><h2 id="t3">The soft square, somewhere between a circle and a box.</h2></div>
+      <div class="ch-body"><div class="col">
+        <p class="measure">San Francisco feels calm partly because its rounds are not circles. Sutra makes that shape exact with a superellipse. At an exponent of 2 it is a circle, and as the number grows it becomes a box. Sutra lives at 2.7: straight enough that a column of code reads as walls, round enough that nothing has a corner.</p>
+        <figure class="instrument" style="margin:0">
+          <svg id="sqSvg" viewBox="-40 -40 1880 820" role="img" aria-label="A bowl shape morphing between a circle and a square"></svg>
+          <div class="controls">
+            <label for="nexp">Exponent <input id="nexp" type="range" min="2" max="6" step="0.05" value="2.7"><output id="nOut" for="nexp">2.70</output></label>
+            <button class="toggle" id="nReset" type="button" aria-pressed="true">Sutra’s 2.7</button>
+          </div>
+        </figure>
+      </div></div>
+    </div>
+  </section>
+
+  <section class="chapter seven" aria-labelledby="t4">
+    <div class="wrap">
+      <div class="ch-head"><div class="ch-num">Chapter 4</div><h2 id="t4">One bowl gives seven letters.</h2></div>
+      <div class="ch-body"><div class="col">
+        <p class="measure">Once the curve existed, the lowercase almost drew itself. The same bowl with a stem on its left or right, rising or descending, is o, b, d, p, q, a and g. You learn one shape and get seven back, and they agree with each other because they are literally the same object.</p>
+        <figure class="instrument" style="margin:0">
+          <svg id="sevenSvg" viewBox="-40 150 4280 1100" role="img" aria-label="The letters o, b, d, p, q, a and g, sharing one bowl"></svg>
+          <div class="controls">
+            <button class="toggle" id="build" type="button" aria-pressed="false">Build the letters</button>
+            <span>The bowl is drawn in wet ink; the stems are what make it a letter.</span>
+          </div>
+        </figure>
+      </div></div>
+    </div>
+  </section>
+
+  <section class="chapter" aria-labelledby="t5">
+    <div class="wrap">
+      <div class="ch-head"><div class="ch-num">Chapter 5</div><h2 id="t5">In code, a confusion is a bug.</h2></div>
+      <div class="ch-body"><div class="col">
+        <p class="measure">In prose, context forgives a lot. In code there is no such mercy, so each easily confused pair is settled with the smallest difference that works, and nothing more.</p>
+        <div class="pairs">
+          <div class="pair"><b>0O</b><p>Zero is narrower and carries a single dot. No slash, so it never looks like Ø.</p></div>
+          <div class="pair"><b>Il1|</b><p>Capital I has bars, l ends in a tail, 1 has a flag and a foot, and the pipe runs the full height.</p></div>
+          <div class="pair"><b>rn m</b><p>The r turns down early, so rn never fuses into m.</p></div>
+          <div class="pair"><b>;:,.</b><p>Dots are heavier than the stroke, so punctuation survives at small sizes.</p></div>
+        </div>
+      </div></div>
+    </div>
+  </section>
+
+  <section class="chapter" aria-labelledby="t6">
+    <div class="wrap">
+      <div class="ch-head"><div class="ch-num">Chapter 6</div><h2 id="t6">Symbols for people who compose functions.</h2></div>
+      <div class="ch-body"><div class="col">
+        <p class="measure">Most coding fonts borrow mathematical symbols from a fallback font, in another weight and at another height. Sutra draws them with the same pen and sits them on the operator axis, so an expression reads as one line of thought. Choose a symbol to see it closer.</p>
+        <div class="symbols">
+          <div class="sym-grid" id="symGrid" role="group" aria-label="Symbols"></div>
+          <div class="sym-detail" aria-live="polite">
+            <span class="big" id="symBig">∘</span>
+            <div class="name" id="symName">Compose</div>
+            <div class="code" id="symCode">U+2218</div>
+            <div class="use" id="symUse">cata alg = alg ∘ fmap (cata alg) ∘ unfix</div>
           </div>
         </div>
-        <div class="code"><textarea id="ed" spellcheck="false" aria-label="Type tester">-- a spec, compiled into a deterministic Moore machine
+      </div></div>
+    </div>
+  </section>
+
+  <section class="chapter" id="try" aria-labelledby="t7">
+    <div class="wrap">
+      <div class="ch-head"><div class="ch-num">Chapter 7</div><h2 id="t7">Where it lives. Type here.</h2></div>
+      <div class="ch-body"><div class="col">
+        <p class="measure">A coding font is read for hours, mostly at thirteen or fourteen points, mostly at night. The test is what you stop noticing.</p>
+        <div class="editor">
+          <div class="ed-bar">
+            <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+            <div class="seg" role="group" aria-label="Weight">
+              <button type="button" data-w="300" aria-pressed="false">Light</button>
+              <button type="button" data-w="400" aria-pressed="true">Regular</button>
+              <button type="button" data-w="700" aria-pressed="false">Bold</button>
+            </div>
+            <label for="fs" style="display:flex;align-items:center;gap:12px">Size <input id="fs" type="range" min="12" max="34" value="18"><output id="fsOut" class="mono" for="fs">18</output></label>
+          </div>
+          <div class="ed-scroll"><textarea id="ed" spellcheck="false" aria-label="Type tester">-- a spec, compiled into a deterministic Moore machine
 compile = emit ∘ minimise ∘ determinise ∘ parse
 
 fold :: (F a → a) → Fix F → a
@@ -190,160 +332,350 @@ const step = (s: State, e: Event): State =>
 
 λx. x ≡ id   ∀ f g h. (f ∘ g) ∘ h ≡ f ∘ (g ∘ h)
 if (bid >= floor &amp;&amp; fill != 0) { render("banner") }
+
 0O o Il1| {}[]() #$%&amp;@ → ← ↦ ⊗ ⊕ ⊥ ⊤ ∈ ≅ ¬
 Ærøskøbing  Łódź  Șișli  İstanbul  straße</textarea></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="story">
-    <div class="wrap">
-      <div class="doc-head">
-        <div>
-          <p class="label">## the design document</p>
-          <h2>Eleven pages on how a one-sentence brief became a typeface.</h2>
         </div>
-        <p class="muted">The pen, the soft-square curve, the grid, the bowl seven letters share, the symbols for people who compose functions, and the optical corrections that geometry alone gets wrong. Every glyph in it is drawn from the font itself.</p>
-      </div>
-      <div class="strip" id="strip" aria-label="Design document pages"></div>
-      <p class="strip-hint">scroll sideways · select a page to enlarge · <a href="Sutra-Mono-Design-Document.pdf">open the PDF</a></p>
+      </div></div>
     </div>
   </section>
 
-  <section class="night" aria-labelledby="where">
+  <section class="chapter paper" id="document" aria-labelledby="t8">
     <div class="wrap">
-      <p class="label">## where it lives</p>
-      <h2 id="where">Read it at arm’s length. Notice what you don’t notice.</h2>
-      <p>A coding font is read for hours, mostly at thirteen or fourteen points, mostly on a dark background. No terminal catches the eye; no letter is louder than its neighbours.</p>
-<pre class="code-night"><span class="c">-- ad format spec ⇒ deterministic Moore machine</span>
-<span class="k">compile</span> <span class="c">=</span> emit ∘ minimise ∘ determinise ∘ parse
-
-<span class="k">fold</span> <span class="c">::</span> <span class="s">(F a → a) → Fix F → a</span>
-<span class="k">fold alg</span> <span class="c">=</span> alg ∘ fmap (fold alg) ∘ unfix
-
-<span class="k">const</span> step <span class="c">=</span> (s: State, e: Event): State =>
-  s.on[e.kind]?.(e) ?? s;   <span class="c">// total, never throws</span></pre>
+      <div class="ch-head"><div class="ch-num">Chapter 8</div><h2 id="t8">The whole story, on paper.</h2></div>
+      <div class="ch-body"><div class="col">
+        <p class="measure">Eleven pages on how the brief became a typeface: the pen, the curve, the grid, the shared bowl, the symbols, and the optical corrections that geometry alone gets wrong. Every glyph in it is drawn from the font itself.</p>
+        <div class="strip" id="strip" aria-label="Design document pages"></div>
+        <div class="paper-actions">
+          <a class="pill solid" href="Sutra-Mono-Design-Document.pdf">Open the PDF</a>
+          <a class="pill" href="https://github.com/narennaik/sutra-mono">Read the source on GitHub</a>
+        </div>
+      </div></div>
     </div>
   </section>
 
-  <section id="glyphs">
+  <section class="chapter" id="get" aria-labelledby="t9">
     <div class="wrap">
-      <p class="label">## the alphabet</p>
-      <p class="alpha">abcdefghijklm<br>nopqrstuvwxyz<br>ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br><span class="soft">0123456789</span></p>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap">
-      <p class="label">## the composition set</p>
-      <h2>Symbols drawn with the same pen, on the operator axis.</h2>
-      <p class="muted">Most coding fonts borrow mathematical symbols from a fallback font. Sutra draws them, so <span style="font-family:var(--mono);color:var(--ink)">g ∘ f</span> reads as one line of thought.</p>
-      <div class="grid" id="grid"></div>
-      <div class="formula">cata alg = alg ∘ fmap (cata alg) ∘ unfix</div>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap">
-      <p class="label">## told apart at a glance</p>
-      <div class="pairs">
-        <div class="pair"><b>0O</b><span>Zero is narrower and carries a dot, never a slash.</span></div>
-        <div class="pair"><b>Il1|</b><span>Capital I has bars, l ends in a tail, 1 has a flag and a foot.</span></div>
-        <div class="pair"><b>rn m</b><span>The r turns down early, so rn never fuses into m.</span></div>
-        <div class="pair"><b>;:,.</b><span>Dots run heavier than the stroke so punctuation survives at 11px.</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap">
-      <p class="label">## three weights, one skeleton</p>
-      <div class="weights">
-        <div><small>Light · 58</small><b style="font-weight:300">cata ∘ fmap f</b></div>
-        <div><small>Regular · 82</small><b style="font-weight:400">cata ∘ fmap f</b></div>
-        <div><small>Bold · 114</small><b style="font-weight:700">cata ∘ fmap f</b></div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap">
-      <p class="label">## construction</p>
-      <h2>A font that is generated, not drawn by hand.</h2>
-      <dl class="notes">
-        <div><dt>skeleton ∘ pen</dt><dd>Each glyph is a centre-line swept by one pen. <span>Weight is the pen’s width and nothing else.</span></dd></div>
-        <div><dt>|x|<sup>2.7</sup> + |y|<sup>2.7</sup> = 1</dt><dd>The bowl curve. <span>Straighter sides than an ellipse, softer shoulders than a box.</span></dd></div>
-        <div><dt>pen 1 : 0.92</dt><dd>An elliptical nib. <span>Horizontals come out 8% lighter, as a type designer would correct by eye.</span></dd></div>
-        <div><dt>600 / 1000 em</dt><dd>Every advance. <span>x-height 520, cap 700, ascender 740, descender −200, operator axis 330.</span></dd></div>
-      </dl>
-    </div>
-  </section>
-
-  <section id="install">
-    <div class="wrap">
-      <p class="label">## install</p>
-      <h2>Thirty seconds to try it.</h2>
-      <div class="install">
-        <div class="sheet"><b>1. Download and install</b><p class="muted">Open the three .ttf files from the zip and install them.</p><code><a href="SutraMono-1.100.zip" download>SutraMono-1.100.zip</a></code></div>
-        <div class="sheet"><b>2. VS Code</b><p class="muted">Settings → JSON</p><code>"editor.fontFamily": "Sutra Mono"</code></div>
-        <div class="sheet"><b>3. Terminal</b><p class="muted">Ghostty, for example</p><code>font-family = Sutra Mono</code></div>
-      </div>
+      <div class="ch-head"><div class="ch-num">Chapter 9</div><h2 id="t9">Take it home.</h2></div>
+      <div class="ch-body"><div class="col">
+        <p class="measure">Sutra Mono is free for any use under the SIL Open Font License, and it has been submitted to Google Fonts. It takes about thirty seconds to try.</p>
+        <div class="hero-actions" style="justify-content:flex-start;margin-top:0">
+          <a class="pill solid" href="SutraMono-1.100.zip" download>Download the fonts (zip)</a>
+          <a class="pill" href="https://github.com/google/fonts/issues/11111">Follow the Google Fonts submission</a>
+        </div>
+        <div class="get">
+          <div><h3>Install</h3><p>Unzip, then open each .ttf file and install it.</p><code>SutraMono-Light.ttf
+SutraMono-Regular.ttf
+SutraMono-Bold.ttf</code></div>
+          <div><h3>VS Code</h3><p>In settings.json:</p><code>"editor.fontFamily": "Sutra Mono"</code></div>
+          <div><h3>Your terminal</h3><p>Ghostty, for example:</p><code>font-family = Sutra Mono</code></div>
+        </div>
+      </div></div>
     </div>
   </section>
 </main>
 
 <footer>
   <div class="wrap">
-    <span>Sutra Mono · designed by Naren Laxmidas Naik · SIL Open Font License 1.1</span>
+    <span>Sutra Mono, designed by Naren Laxmidas Naik. SIL Open Font License 1.1.</span>
     <span><a href="https://github.com/narennaik/sutra-mono">github.com/narennaik/sutra-mono</a></span>
   </div>
 </footer>
 
 <dialog id="dlg" aria-label="Design document page">
   <img id="dlgImg" alt="">
-  <div class="dlg-bar"><span id="dlgCap"></span><span><button id="prev" aria-label="Previous page">←</button> <button id="next" aria-label="Next page">→</button> <button id="close">Close</button></span></div>
+  <div class="dlg-bar"><span id="dlgCap"></span><span><button id="prev" type="button" aria-label="Previous page">←</button> <button id="next" type="button" aria-label="Next page">→</button> <button id="close" type="button">Close</button></span></div>
 </dialog>
 
 <script>
-const PAGES = [
-  ['Cover', 'Sutra Mono cover'], ['Prologue', 'The brief was one sentence long'], ['1 · One line, one pen', 'Skeletons and pen weights'],
-  ['2 · The soft square', 'The superellipse curve'], ['3 · Six hundred units', 'The monospace grid'], ['4 · One bowl, seven letters', 'Shared bowl'],
-  ['5 · Told apart', 'Disambiguated characters'], ['6 · The composition set', 'Mathematical symbols'], ['7 · Where it lives', 'Code on a dark background'],
-  ['8 · What the eye wants', 'Optical corrections'], ['Colophon', 'Specification']
-];
-const strip = document.getElementById('strip'), dlg = document.getElementById('dlg');
-const img = document.getElementById('dlgImg'), cap = document.getElementById('dlgCap');
-let cur = 0;
-const src = i => `pages/page-${String(i + 1).padStart(2, '0')}.jpg`;
-PAGES.forEach(([t, alt], i) => {
-  const b = document.createElement('button');
-  b.type = 'button';
-  b.innerHTML = `<img src="${src(i)}" alt="${alt}" loading="lazy" width="909" height="1286"><span>${String(i + 1).padStart(2, '0')} · ${t}</span>`;
-  b.addEventListener('click', () => open(i));
-  strip.appendChild(b);
-});
-function open(i) {
-  cur = (i + PAGES.length) % PAGES.length;
-  img.src = src(cur); img.alt = PAGES[cur][1];
-  cap.textContent = `${String(cur + 1).padStart(2, '0')} / ${PAGES.length} · ${PAGES[cur][0]}`;
-  if (!dlg.open) dlg.showModal();
+document.documentElement.classList.add('js');
+const NS = 'http://www.w3.org/2000/svg';
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const BASE = 950;            // baseline y inside each drawing's viewBox
+const ADV = 600;
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+const el = (tag, attrs = {}, parent) => {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+  if (parent) parent.appendChild(e);
+  return e;
+};
+
+/* Draw a word from skeletons. Paths are stroked with an elliptical pen: the group is squashed
+   vertically by the pen aspect, and the path y values are stretched by the same amount, so
+   positions are exact while the nib is 8% flatter, just like the font. */
+function drawWord(svg, word, G, meta, { pen = 82, x0 = 0, classFor = null, color } = {}) {
+  const e = meta.aspect;
+  const out = { paths: [], dots: [] };
+  [...word].forEach((ch, i) => {
+    const g = G[ch];
+    if (!g) return;
+    const x = x0 + i * ADV;
+    const gp = el('g', { transform: `translate(${x} ${BASE}) scale(1 ${-e})` }, svg);
+    g.p.forEach((flat, j) => {
+      let d = '';
+      for (let k = 0; k < flat.length; k += 2) d += (k ? 'L' : 'M') + flat[k] + ' ' + (flat[k + 1] / e).toFixed(1);
+      const p = el('path', { d, fill: 'none', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, gp);
+      p.dataset.k = g.k[j];
+      p.style.strokeWidth = pen * g.k[j];
+      if (color) p.style.stroke = color;
+      if (classFor) p.setAttribute('class', classFor(ch, j));
+      out.paths.push(p);
+    });
+    const gd = el('g', { transform: `translate(${x} ${BASE}) scale(1 -1)` }, svg);
+    g.d.forEach(([cx, cy, r]) => {
+      const c = el('circle', { cx, cy, r: r * pen / meta.pen }, gd);
+      c.dataset.r = r;
+      if (color) c.style.fill = color;
+      out.dots.push(c);
+    });
+  });
+  return out;
 }
-document.getElementById('prev').onclick = () => open(cur - 1);
-document.getElementById('next').onclick = () => open(cur + 1);
-document.getElementById('close').onclick = () => dlg.close();
-dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
-dlg.addEventListener('keydown', e => { if (e.key === 'ArrowRight') open(cur + 1); if (e.key === 'ArrowLeft') open(cur - 1); });
 
-const SYMS = [["∘","2218","compose"],["→","2192","arrow"],["←","2190","from"],["⇒","21D2","implies"],["⇐","21D0","implied by"],["↦","21A6","maps to"],["λ","03BB","lambda"],["∀","2200","for all"],["∃","2203","exists"],["≡","2261","identical"],["≠","2260","not equal"],["≅","2245","isomorphic"],["≤","2264","at most"],["≥","2265","at least"],["⊗","2297","tensor"],["⊕","2295","direct sum"],["×","00D7","product"],["∈","2208","element of"],["⊥","22A5","bottom"],["⊤","22A4","top"],["∅","2205","empty"],["¬","00AC","not"],["·","00B7","dot"],["…","2026","ellipsis"]];
-const grid = document.getElementById('grid');
-SYMS.forEach(([c, u, n]) => { const d = document.createElement('div'); d.className = 'cell'; d.innerHTML = `<b>${c}</b><i>${n}</i><small>U+${u}</small>`; grid.appendChild(d); });
+function setPen(word, pen, meta) {
+  word.paths.forEach(p => p.style.strokeWidth = pen * +p.dataset.k);
+  word.dots.forEach(c => c.setAttribute('r', (+c.dataset.r) * pen / meta.pen + (pen - meta.pen) * 0));
+}
 
-const ed = document.getElementById('ed'), fs = document.getElementById('fs'), fsv = document.getElementById('fsv');
-fs.addEventListener('input', () => { ed.style.setProperty('--fs', fs.value + 'px'); fsv.textContent = fs.value + 'px'; });
-document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => {
-  document.querySelectorAll('.seg button').forEach(x => x.setAttribute('aria-pressed', x === b));
-  ed.style.setProperty('--fw', b.dataset.w);
-}));
+fetch('assets/glyphs.json').then(r => r.json()).then(({ meta, glyphs: G }) => {
+  hero(G, meta);
+  penDemo(G, meta);
+  seven(G, meta);
+}).catch(() => document.getElementById('hero').classList.add('done'));
+
+/* ── the hero: a thread of ink writes the name, then the pen widens to the real weight ── */
+function hero(G, meta) {
+  const svg = document.getElementById('heroSvg');
+  const section = document.getElementById('hero');
+  const ivory = css('--ivory'), tsuki = css('--tsuki');
+  let anims = [];
+  function run() {
+    anims.forEach(a => a.cancel()); anims = [];
+    svg.innerHTML = '';
+    section.classList.remove('done');
+    const w = drawWord(svg, 'Sutra', G, meta, { pen: meta.pen, x0: 0 });
+    const nib = el('circle', { r: 16, fill: tsuki, opacity: 0 }, svg);
+    if (REDUCED) {
+      w.paths.forEach(p => p.style.stroke = ivory);
+      w.dots.forEach(c => c.style.fill = ivory);
+      section.classList.add('done');
+      return;
+    }
+    const THIN = 9, speed = 2.15; // font units per ms: a steady hand
+    let t = 260;
+    const nibFrames = [];
+    w.paths.forEach(p => {
+      const L = p.getTotalLength();
+      const dur = Math.max(200, L / speed);
+      p.style.stroke = tsuki;
+      p.style.strokeWidth = THIN;
+      p.style.strokeDasharray = L;
+      p.style.strokeDashoffset = L;
+      p.style.opacity = 0;
+      anims.push(p.animate([{ strokeDashoffset: L, opacity: 0 }, { strokeDashoffset: L * .985, opacity: 1, offset: .02 }, { strokeDashoffset: 0, opacity: 1 }],
+        { duration: dur, delay: t, easing: 'linear', fill: 'forwards' }));
+      // the nib rides the line: sample points in screen space of the svg
+      const ctm = p.getCTM(), svgCtm = svg.getCTM().inverse();
+      const m = svgCtm.multiply(ctm);
+      const N = Math.max(8, Math.round(L / 40));
+      for (let i = 0; i <= N; i++) {
+        const q = p.getPointAtLength(L * i / N).matrixTransform(m);
+        nibFrames.push({ t: t + dur * i / N, x: q.x, y: q.y });
+      }
+      t += dur + 45;
+    });
+    const total = t;
+    const frames = nibFrames.map(f => ({ offset: f.t / total, transform: `translate(${f.x}px, ${f.y}px)`, opacity: 1 }));
+    frames.unshift({ offset: 0, transform: frames[0].transform, opacity: 0 });
+    frames.push({ offset: 1, transform: frames[frames.length - 1].transform, opacity: 0 });
+    for (let i = 1; i < frames.length; i++) if (frames[i].offset < frames[i - 1].offset) frames[i].offset = frames[i - 1].offset;
+    anims.push(nib.animate(frames, { duration: total + 200, fill: 'forwards' }));
+    w.dots.forEach(c => { c.style.fill = tsuki; c.style.transformBox = 'fill-box'; c.style.transformOrigin = 'center';
+      anims.push(c.animate([{ transform: 'scale(0)' }, { transform: 'scale(1)' }], { duration: 500, delay: total - 200, easing: 'cubic-bezier(.3,1.4,.5,1)', fill: 'backwards' })); });
+    // the pen opens to full weight, wet ink dries to ivory
+    w.paths.forEach(p => {
+      const full = meta.pen * +p.dataset.k;
+      anims.push(p.animate([{ strokeWidth: THIN, stroke: tsuki }, { strokeWidth: full, stroke: ivory }],
+        { duration: 1300, delay: total + 120, easing: 'cubic-bezier(.65,0,.25,1)', fill: 'forwards' }));
+    });
+    w.dots.forEach(c => anims.push(c.animate([{ fill: tsuki }, { fill: ivory }], { duration: 1300, delay: total + 120, fill: 'forwards' })));
+    setTimeout(() => section.classList.add('done'), total + 700);
+  }
+  run();
+  document.getElementById('replay').addEventListener('click', run);
+}
+
+/* ── chapter 2: the pen ── */
+function penDemo(G, meta) {
+  const svg = document.getElementById('penSvg');
+  const wordG = el('g', { style: 'transition:opacity .5s' }, svg);
+  const word = drawWord(wordG, 'fold ∘ map', G, meta, { pen: 82, x0: 0, color: css('--ivory') });
+  const threadG = el('g', { opacity: 0, style: 'transition:opacity .5s' }, svg);
+  const thread = drawWord(threadG, 'fold ∘ map', G, meta, { pen: 6, x0: 0, color: css('--tsuki') });
+  thread.dots.forEach(c => c.setAttribute('r', 9));
+  const pen = document.getElementById('pen'), out = document.getElementById('penOut');
+  const sync = () => {
+    const v = +pen.value;
+    setPen(word, v, meta);
+    out.textContent = v;
+    pen.style.setProperty('--p', ((v - pen.min) / (pen.max - pen.min) * 100) + '%');
+  };
+  pen.addEventListener('input', sync); sync();
+  const t = document.getElementById('thread');
+  t.addEventListener('click', () => {
+    const on = t.getAttribute('aria-pressed') !== 'true';
+    t.setAttribute('aria-pressed', on);
+    threadG.setAttribute('opacity', on ? 1 : 0);
+    wordG.setAttribute('opacity', on ? .38 : 1);
+  });
+}
+
+/* ── chapter 3: the superellipse ── */
+(function superellipse() {
+  const svg = document.getElementById('sqSvg');
+  const ivory = css('--ivory'), tsuki = css('--tsuki'), hair = css('--hair'), mist = css('--mist');
+  const shape = (cx, cy, rx, ry, n) => {
+    let d = '';
+    for (let i = 0; i <= 180; i++) {
+      const t = i / 180 * Math.PI * 2, c = Math.cos(t), s = Math.sin(t);
+      const x = cx + rx * Math.sign(c) * Math.abs(c) ** (2 / n), y = cy - ry * Math.sign(s) * Math.abs(s) ** (2 / n);
+      d += (i ? 'L' : 'M') + x.toFixed(1) + ' ' + y.toFixed(1);
+    }
+    return d + 'Z';
+  };
+  const LABEL = innerWidth < 640 ? 84 : 44;
+  const ghost = (n, x) => el('path', { d: shape(x, 370, 230, 330, n), fill: 'none', stroke: hair, 'stroke-width': 3, 'stroke-dasharray': '10 12' }, svg);
+  ghost(2, 280); ghost(14, 1520);
+  const label = (txt, x) => { const t = el('text', { x, y: 790, 'text-anchor': 'middle', fill: mist, 'font-family': 'Sutra Mono, monospace', 'font-size': LABEL }, svg); t.textContent = txt; };
+  label('circle, n = 2', 280); label('box', 1520);
+  const live = el('path', { fill: 'none', stroke: ivory, 'stroke-width': 82, 'stroke-linejoin': 'round' }, svg);
+  const nLabel = el('text', { x: 900, y: 790, 'text-anchor': 'middle', fill: tsuki, 'font-family': 'Sutra Mono, monospace', 'font-size': LABEL }, svg);
+  const input = document.getElementById('nexp'), out = document.getElementById('nOut'), reset = document.getElementById('nReset');
+  const sync = () => {
+    const n = +input.value;
+    live.setAttribute('d', shape(900, 370, 230, 330, n));
+    out.textContent = n.toFixed(2);
+    const atSutra = Math.abs(n - 2.7) < 0.03;
+    nLabel.textContent = atSutra ? 'Sutra, n = 2.7' : 'n = ' + n.toFixed(2);
+    live.setAttribute('stroke', atSutra ? ivory : tsuki);
+    reset.setAttribute('aria-pressed', atSutra);
+    input.style.setProperty('--p', ((n - 2) / 4 * 100) + '%');
+  };
+  input.addEventListener('input', sync);
+  reset.addEventListener('click', () => {
+    const from = +input.value, start = performance.now();
+    const step = now => {
+      const k = Math.min(1, (now - start) / 600), e = 1 - (1 - k) ** 3;
+      input.value = from + (2.7 - from) * e; sync();
+      if (k < 1 && !REDUCED) requestAnimationFrame(step); else { input.value = 2.7; sync(); }
+    };
+    requestAnimationFrame(step);
+  });
+  sync();
+})();
+
+/* ── chapter 4: seven letters from one bowl ── */
+function seven(G, meta) {
+  const svg = document.getElementById('sevenSvg');
+  const word = drawWord(svg, 'obdpqag', G, meta, { pen: 82, x0: 0, classFor: (ch, j) => (j === 0 ? 'bowl' : 'stem') });
+  const btn = document.getElementById('build');
+  let anims = [];
+  btn.addEventListener('click', () => {
+    anims.forEach(a => a.cancel()); anims = [];
+    btn.setAttribute('aria-pressed', 'true');
+    if (REDUCED) { btn.setAttribute('aria-pressed', 'false'); return; }
+    const stems = word.paths.filter(p => p.classList.contains('stem'));
+    const bowls = word.paths.filter(p => p.classList.contains('bowl'));
+    bowls.forEach((p, i) => {
+      const L = p.getTotalLength();
+      p.style.strokeDasharray = L;
+      anims.push(p.animate([{ strokeDashoffset: L, opacity: 0 }, { strokeDashoffset: L * .97, opacity: 1, offset: .03 }, { strokeDashoffset: 0, opacity: 1 }], { duration: 900, delay: i * 90, easing: 'cubic-bezier(.5,0,.25,1)', fill: 'both' }));
+    });
+    stems.forEach((p, i) => {
+      const L = p.getTotalLength();
+      p.style.strokeDasharray = L;
+      anims.push(p.animate([{ strokeDashoffset: L, opacity: 0 }, { strokeDashoffset: L * .96, opacity: 1, offset: .04 }, { strokeDashoffset: 0, opacity: 1 }], { duration: 650, delay: 1300 + i * 140, easing: 'cubic-bezier(.3,0,.2,1)', fill: 'both' }));
+    });
+    const end = anims[anims.length - 1];
+    end.onfinish = () => btn.setAttribute('aria-pressed', 'false');
+  });
+}
+
+/* ── chapter 6: symbols ── */
+(function symbols() {
+  const S = [['∘', '2218', 'Compose', 'cata alg = alg ∘ fmap (cata alg) ∘ unfix'], ['→', '2192', 'Arrow', 'fold :: (F a → a) → Fix F → a'],
+    ['⇒', '21D2', 'Implies', 'Functor f ⇒ f a → f b'], ['↦', '21A6', 'Maps to', 'x ↦ x * 2'], ['λ', '03BB', 'Lambda', 'λx. x ≡ id'],
+    ['∀', '2200', 'For all', '∀ f g h. (f ∘ g) ∘ h ≡ f ∘ (g ∘ h)'], ['∃', '2203', 'Exists', '∃ x. p(x)'], ['≡', '2261', 'Identical', 'fmap id ≡ id'],
+    ['≠', '2260', 'Not equal', 'a ≠ b'], ['≅', '2245', 'Isomorphic', 'A × B ≅ B × A'], ['≤', '2264', 'At most', '0 ≤ n'], ['≥', '2265', 'At least', 'len ≥ 1'],
+    ['⊗', '2297', 'Tensor', 'F ⊗ G'], ['⊕', '2295', 'Direct sum', 'A ⊕ B'], ['×', '00D7', 'Product', 'A × B'], ['∈', '2208', 'Element of', 'x ∈ xs'],
+    ['⊥', '22A5', 'Bottom', 'undefined :: ⊥'], ['⊤', '22A4', 'Top', 'const ⊤'], ['∅', '2205', 'Empty set', 'xs ≡ ∅'], ['¬', '00AC', 'Not', '¬ (p ∧ q)'],
+    ['←', '2190', 'From', 'x ← readLine'], ['⇐', '21D0', 'Implied by', 'q ⇐ p'], ['·', '00B7', 'Dot', 'a · b'], ['…', '2026', 'Ellipsis', '[1 … n]']];
+  const grid = document.getElementById('symGrid');
+  const big = document.getElementById('symBig'), name = document.getElementById('symName'), code = document.getElementById('symCode'), use = document.getElementById('symUse');
+  const show = (s, b) => {
+    big.textContent = s[0]; name.textContent = s[2]; code.textContent = 'U+' + s[1]; use.textContent = s[3];
+    grid.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+  };
+  S.forEach((s, i) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.textContent = s[0]; b.setAttribute('aria-label', s[2]); b.setAttribute('aria-pressed', i === 0);
+    b.addEventListener('click', () => show(s, b));
+    b.addEventListener('mouseenter', () => show(s, b));
+    b.addEventListener('focus', () => show(s, b));
+    grid.appendChild(b);
+  });
+})();
+
+/* ── chapter 7: editor ── */
+(function editor() {
+  const ed = document.getElementById('ed'), fs = document.getElementById('fs'), out = document.getElementById('fsOut');
+  if (innerWidth < 640) fs.value = 14;
+  const sync = () => { ed.style.setProperty('--fs', fs.value + 'px'); out.textContent = fs.value; fs.style.setProperty('--p', ((fs.value - fs.min) / (fs.max - fs.min) * 100) + '%'); };
+  fs.addEventListener('input', sync); sync();
+  document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('.seg button').forEach(x => x.setAttribute('aria-pressed', x === b));
+    ed.style.setProperty('--fw', b.dataset.w);
+  }));
+})();
+
+/* ── chapter 8: the document ── */
+(function gallery() {
+  const PAGES = [['Cover', 'Sutra Mono cover'], ['Prologue', 'The brief was one sentence long'], ['One line, one pen', 'Skeletons and pen weights'],
+    ['The soft square', 'The superellipse'], ['Six hundred units', 'The monospace grid'], ['One bowl, seven letters', 'The shared bowl'],
+    ['Told apart', 'Easily confused characters'], ['The composition set', 'Mathematical symbols'], ['Where it lives', 'Code on a dark background'],
+    ['What the eye wants', 'Optical corrections'], ['Colophon', 'Specification']];
+  const strip = document.getElementById('strip'), dlg = document.getElementById('dlg');
+  const img = document.getElementById('dlgImg'), cap = document.getElementById('dlgCap');
+  let cur = 0;
+  const src = i => `pages/page-${String(i + 1).padStart(2, '0')}.jpg`;
+  const open = i => {
+    cur = (i + PAGES.length) % PAGES.length;
+    img.src = src(cur); img.alt = PAGES[cur][1];
+    cap.textContent = `Page ${cur + 1} of ${PAGES.length}: ${PAGES[cur][0]}`;
+    if (!dlg.open) dlg.showModal();
+  };
+  PAGES.forEach(([t, alt], i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.innerHTML = `<img src="${src(i)}" alt="${alt}" loading="lazy" width="909" height="1286"><span>${t}</span>`;
+    b.addEventListener('click', () => open(i));
+    strip.appendChild(b);
+  });
+  document.getElementById('prev').onclick = () => open(cur - 1);
+  document.getElementById('next').onclick = () => open(cur + 1);
+  document.getElementById('close').onclick = () => dlg.close();
+  dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+  dlg.addEventListener('keydown', e => { if (e.key === 'ArrowRight') open(cur + 1); if (e.key === 'ArrowLeft') open(cur - 1); });
+})();
+
+/* nav turns solid once the hero is behind you */
+(function nav() {
+  const nav = document.getElementById('nav');
+  const io = new IntersectionObserver(([e]) => nav.classList.toggle('solid', !e.isIntersecting), { rootMargin: '-80px 0px 0px 0px' });
+  io.observe(document.getElementById('hero'));
+})();
 </script>
 </body>
 </html>
