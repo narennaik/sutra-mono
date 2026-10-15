@@ -145,7 +145,7 @@ page_bg(c)
 # a large composition ring, the font's own ∘, bleeding off the top right
 draw_glyph(c, '∘', PW - 560, PH - 520, 1150, BLUE_SOFT)
 c.setFont('Sutra', 9); c.setFillColor(MUTED)
-c.drawString(M, PH - 70, 'product document  ·  v1.100  ·  october 2026')
+c.drawString(M, PH - 70, 'product document  ·  v1.110  ·  october 2026')
 draw_text_glyphs(c, 'Sutra', M - 4, 370, 132, INK)
 draw_text_glyphs(c, 'Mono', M - 4, 248, 132, BLUE)
 para(c, 'A monospace drawn as a single thread. One centre-line, one pen, nothing that is there for show.',
@@ -469,7 +469,7 @@ page_bg(c)
 y = chapter_head(c, 8, 'What the eye wants', PH - 90)
 y = para(c, 'Version one was honest geometry, and the first round of use showed exactly where geometry and '
             'perception part ways. Type designers have known these things for a long time; Sutra learned them '
-            'by drawing, and version 1.100 applies each one.', M, y, COL)
+            'by drawing, and version 1.110 applies each one.', M, y, COL)
 lessons = [
     ('Horizontals look heavier than verticals.',
      'A round pen gives every direction the same width, so bars and the tops of bowls read slightly heavy. '

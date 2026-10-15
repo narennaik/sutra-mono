@@ -40,7 +40,7 @@ im = Image.open('documentation/specimen.png').convert('RGB'); W, H = 1200, 630
 r = max(W / im.width, H / im.height); im = im.resize((int(im.width * r), int(im.height * r)), Image.LANCZOS)
 x = (im.width - W) // 2; im.crop((x, 0, x + W, H)).save('docs/og.png', optimize=True)
 shutil.copy('documentation/design-doc/Sutra-Mono-Design-Document.pdf', 'docs/')
-with zipfile.ZipFile('docs/SutraMono-1.100.zip', 'w', zipfile.ZIP_DEFLATED) as z:
+with zipfile.ZipFile('docs/SutraMono.zip', 'w', zipfile.ZIP_DEFLATED) as z:
     for w in ('Light', 'Regular', 'Bold'):
         z.write(f'fonts/ttf/SutraMono-{w}.ttf', f'SutraMono-{w}.ttf')
     z.write('OFL.txt', 'OFL.txt')

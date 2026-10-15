@@ -3,7 +3,7 @@
 **A typeface for code, drawn as a single thread.** One centre-line per letter, one pen to trace
 it, nothing that is there for show.
 
-**[Visit the specimen site →](https://narennaik.github.io/sutra-mono/)** · [Download the fonts](docs/SutraMono-1.100.zip) · [Read the design document (PDF)](documentation/design-doc/Sutra-Mono-Design-Document.pdf)
+**[Visit the specimen site →](https://narennaik.github.io/sutra-mono/)** · [Download the fonts](docs/SutraMono.zip) · [Read the design document (PDF)](documentation/design-doc/Sutra-Mono-Design-Document.pdf)
 
 ![Sutra Mono specimen](documentation/specimen.png)
 
@@ -31,7 +31,7 @@ from the font itself.
 
 ## Install
 
-Download [`SutraMono-1.100.zip`](docs/SutraMono-1.100.zip) (or the `.ttf` files in
+Download [`SutraMono.zip`](docs/SutraMono.zip) (or the `.ttf` files in
 [`fonts/ttf`](fonts/ttf)), install them, then set your editor's font, for example
 `"editor.fontFamily": "Sutra Mono"` in VS Code or `font-family = Sutra Mono` in Ghostty.
 
@@ -58,6 +58,8 @@ make site     # refresh the specimen site in docs/
 ```
 
 ## Changelog
+
+**1.110**: Respaced r (stem on the common stem line); s, S, $ and § redrawn as one smooth curve on an upright axis.
 
 **1.100**: Elliptical pen (horizontals 8% lighter); redrawn s, S, $, r, ß; GF Latin Core coverage;
 curve-fitted outlines; UFO sources and a gftools build; design document and specimen site.

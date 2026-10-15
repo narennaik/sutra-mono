@@ -14,7 +14,7 @@ from fontTools.agl import AGL2UV, UV2AGL
 from geometry import stroke, fit_polygons, draw_contours
 from skeletons import skeletons, W, X, H, A, C, L, R, TOP_X
 
-VERSION = (1, 100)
+VERSION = (1, 110)
 FAMILY = 'Sutra Mono'
 REPO = 'https://github.com/narennaik/sutra-mono'
 DESIGNER = 'Naren Laxmidas Naik'
