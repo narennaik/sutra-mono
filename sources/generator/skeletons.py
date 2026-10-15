@@ -53,6 +53,37 @@ def s_shape(top, bot, rxu, rxl, bias=10, t_top=34, t_bot=-150, cxu=C - 2, cxl=C 
     return sq(cxu, yu, rxu, ryu, t_top, tu, n) + sq(cxl, yl, rxl, ryl, tl, t_bot, n)
 
 
+def _u(v):
+    l = math.hypot(*v); return (v[0]/l, v[1]/l)
+
+def s_curve(top, bot, rx, OV=OV, cx=C, n=2.4, waist=0.52, spine=0.40, upper_w=0.94, lean=0.03,
+            a_top=34, a_bot=-146, hk=0.62, sk=0.55, steps=48):
+    """s/S skeleton: upper bowl and lower bowl are exact superellipse arcs (so the hooks continue
+    the bowls' own curves), joined by a two-piece Bézier spine whose ends leave the bowls along
+    their vertical tangents and cross the centre on a gentle diagonal."""
+    top, bot = top + OV, bot - OV
+    Hh = top - bot
+    X = lambda u: cx + u * rx
+    Y = lambda v: bot + v * Hh
+    vl = (1 + waist) / 2 + 0.02
+    vr = waist / 2 - 0.01
+    ucx, ucy, urx, ury = X(lean), Y(vl), upper_w * rx, Y(1.0) - Y(vl)
+    lcx, lcy, lrx, lry = X(0), Y(vr), rx, Y(vr) - Y(0.0)
+    upper = sq(ucx, ucy, urx, ury, a_top, 180, n, step=1.0)          # terminal → top → left extreme
+    lower = sq(lcx, lcy, lrx, lry, 0, a_bot, n, step=1.0)            # right extreme → bottom → terminal
+    L0, Mid, R0 = upper[-1], (X(0), Y(waist)), lower[0]
+    d = _u((1, -spine))
+    # left extreme → centre
+    l1 = abs(Mid[1] - L0[1]) * hk
+    lm = math.hypot(Mid[0] - L0[0], Mid[1] - L0[1]) * sk
+    seg1 = bez(L0, (L0[0], L0[1] - l1), (Mid[0] - d[0] * lm, Mid[1] - d[1] * lm), Mid, steps)
+    # centre → right extreme
+    r1 = abs(R0[1] - Mid[1]) * hk
+    rm = math.hypot(R0[0] - Mid[0], R0[1] - Mid[1]) * sk
+    seg2 = bez(Mid, (Mid[0] + d[0] * rm, Mid[1] + d[1] * rm), (R0[0], R0[1] + r1), R0, steps)
+    return upper + seg1[1:] + seg2[1:] + lower[1:]
+
+
 def skeletons(S, e=0.92):
     h = S / 2                 # half width of a vertical stroke
     hv = e * S / 2            # half height of a horizontal stroke
@@ -120,7 +151,7 @@ def skeletons(S, e=0.92):
     G['r'] = [[(L, b), (L, x)],
               sq(L + 170, x - 200, 170, 200 + OV, 180, 90, n=2.2) +
               bez((L + 170, x + OV), (L + 240, x + OV), (R - 32, x + OV - 12), (R - 20, x - 40), 16)[1:]]
-    G['s'] = [s_shape(x, b, 158, 172, bias=10)]
+    G['s'] = [s_curve(x, b, 168)]
     G['t'] = [[(C - 40, a - 40), (C - 40, b + 120)] + sq(C + 80, b + 120, 120, 120 + OV, 180, 270) + [(R, b - OV)],
               [(L, x), (R - 20, x)]]
     G['u'] = [[(L, x), (L, b + 230)] + sq(C, b + 230, rx, 230 + OV, 180, 360), [(R, x), (R, b)]]
@@ -152,7 +183,7 @@ def skeletons(S, e=0.92):
     G['P'] = [[(L, b), (L, c)], dshape(c, 300, 290, R)]
     G['Q'] = [sq(C, mh, rx, RY, 0, 360), [(C + 60, 175), (R + 20, b - 50)]]
     G['R'] = [[(L, b), (L, c)], dshape(c, 300, 290, R), [(C + 10, 300), (R + 5, b)]]
-    G['S'] = [s_shape(c, b, 168, 182, bias=14)]
+    G['S'] = [s_curve(c, b, 180)]
     G['T'] = [[(L - 15, c), (R + 15, c)], [(C, c), (C, b)]]
     G['U'] = [[(L, c), (L, b + 230)] + sq(C, b + 230, rx, 230 + OV, 180, 360) + [(R, c)]]
     G['V'] = [[(L - 10, c), (C, b), (R + 10, c)]]
@@ -242,7 +273,7 @@ def skeletons(S, e=0.92):
     G['quotedblbase'] = translate(comma, -92, 0) + translate(comma, 92, 0)
     G['numbersign'] = [[(C - 95, 50), (C - 75, 650)], [(C + 75, 50), (C + 95, 650)],
                        [(L - 15, 235), (R + 15, 235)], [(L - 15, 465), (R + 15, 465)]]
-    G['dollar'] = [s_shape(c - 40, b + 40, 158, 170, bias=12), [(C, c + 12), (C, c + 72)], [(C, b - 12), (C, b - 72)]]
+    G['dollar'] = [s_curve(c - 40, b + 40, 168), [(C, c + 12), (C, c + 72)], [(C, b - 12), (C, b - 72)]]
     G['percent'] = [sq(C - 120, 540, 75, 100, 0, 360), sq(C + 120, 160, 75, 100, 0, 360), [(R + 10, c), (L - 10, b)]]
     G['ampersand'] = [spline([(R + 15, b), (C - 70, 410), (C - 115, 545), (C - 30, c), (C + 70, 590), (C + 30, 480),
                               (L + 5, 300), (L + 10, 120), (C - 10, b), (C + 120, 110), (R + 15, 330)])]
@@ -288,7 +319,7 @@ def skeletons(S, e=0.92):
                 [(L + 35, 125), (R - 35, 125)]]
     G['Euro'] = [sq(C + 40, mh, rx - 8, RY, 45, 315), [(L - 35, mh + 62), (C + 70, mh + 62)],
                  [(L - 35, mh - 62), (C + 50, mh - 62)]]
-    G['section'] = [s_shape(c + 10, 300, 140, 150, bias=4), s_shape(420, -60, 140, 150, bias=4)]
+    G['section'] = [s_curve(c + 10, 300, 146), s_curve(420, -60, 146)]
     ring_r = 248
     G['copyright'] = [sq(C, mh, ring_r, ring_r, 0, 360, n=2.0)] + pen(0.8, [sq(C, mh, 100, 112, 48, 312)])
     G['registered'] = [sq(C, mh, ring_r, ring_r, 0, 360, n=2.0)] + pen(0.8, [
